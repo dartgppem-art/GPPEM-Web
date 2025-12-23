@@ -1,5 +1,5 @@
 import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/Layout/PageHero";
+import PageHero from "@/components/layout/PageHero";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/Layout/PageHero"; // Ajuste o caminho se necessário
+import PageHero from "@/components/layout/PageHero"; // Ajuste o caminho se necessário
 import ExpandableSection from "@/components/ui/ExpandableSection";
 import heroImage from "@/assets/hero-music-education.jpg";
 
