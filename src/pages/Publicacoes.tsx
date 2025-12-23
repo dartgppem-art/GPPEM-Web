@@ -1,137 +1,109 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "@/components/layout/PageLayout";
 import PageHero from "@/components/Layout/PageHero";
-import PublicationCard from "@/components/ui/PublicationCard";
-import publicationFeatured from "@/assets/publication-featured.jpg";
-
-const publications = [
-  {
-    title: "A Importância da Música na Educação Infantil: Um Estudo de Caso",
-    authors: "Maria Silva, João Souza",
-    type: "Artigo Científico",
-    year: "2024",
-    description:
-      "Este estudo investiga como a introdução precoce de instrumentos musicais influencia o desenvolvimento cognitivo e social em crianças de 4 a 6 anos.",
-    featured: true,
-    imageUrl: publicationFeatured,
-  },
-  {
-    title: "Metodologias Ativas no Ensino de Música",
-    authors: "Carlos Pereira",
-    type: "Revista Brasileira de Música",
-    year: "2023",
-    description:
-      "Análise comparativa entre métodos tradicionais e abordagens participativas em escolas públicas do Rio Grande do Norte.",
-  },
-  {
-    title: "Tecnologias Digitais e Práticas Musicais na Escola",
-    authors: "Ana Rodrigues, Pedro Lima",
-    type: "Artigo Científico",
-    year: "2023",
-    description:
-      "Investigação sobre o uso de aplicativos e softwares no ensino de música em escolas públicas.",
-  },
-  {
-    title: "Educação Musical Online: Desafios e Perspectivas",
-    authors: "Giann Mendes Ribeiro",
-    type: "Tese de Doutorado",
-    year: "2022",
-    description:
-      "Estudo aprofundado sobre as práticas de ensino musical em ambientes virtuais durante a pandemia.",
-  },
-  {
-    title: "Formação de Professores de Música no Semiárido",
-    authors: "Renan Colombo Simões",
-    type: "Artigo Científico",
-    year: "2022",
-    description:
-      "Análise das políticas de formação docente para o ensino de música na região do semiárido nordestino.",
-  },
-];
-
-const years = ["Todos", "2024", "2023", "2022"];
-const types = ["Artigos", "Teses", "Dissertações"];
+import { supabase } from "@/lib/supabase";
+import heroPublicacoes from "@/assets/event-seminar.jpg";
 
 const Publicacoes = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedYear, setSelectedYear] = useState("Todos");
+  const [obras, setObras] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredPublications = publications.filter((pub) => {
-    const matchesSearch =
-      pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pub.authors.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesYear = selectedYear === "Todos" || pub.year === selectedYear;
-    return matchesSearch && matchesYear;
-  });
+  useEffect(() => {
+    const fetchPublicacoes = async () => {
+      setLoading(true);
+      // Busca todas as produções cadastradas na aba Produções do Admin
+      const { data, error } = await supabase
+        .from('publicacoes')
+        .select('*')
+        .order('id', { ascending: false });
+      
+      if (!error && data) {
+        setObras(data);
+      }
+      setLoading(false);
+    };
+    fetchPublicacoes();
+  }, []);
+
+  // Motor de Filtro: Busca por título, autores ou descrição
+  const filteredObras = obras.filter((obra) =>
+    (obra.titulo || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (obra.autores || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (obra.descricao || "").toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <PageLayout>
       <PageHero
-        title="Pesquisas e Publicações"
-        subtitle="Acervo de produções acadêmicas do GPPEM"
-        image={publicationFeatured}
+        title="Publicações e Produções"
+        subtitle="Acesse a produção bibliográfica e técnica dos pesquisadores do GPPEM."
+        image={heroPublicacoes}
       />
 
-      {/* Search & Filters */}
-      <div className="px-4 py-4 bg-card sticky top-[60px] z-10 shadow-sm border-b border-border">
-        <div className="max-w-3xl mx-auto space-y-4">
-          <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-              search
-            </span>
+      {/* BARRA DE PESQUISA DINÂMICA */}
+      <div className="bg-white border-b border-slate-100 sticky top-0 z-10 shadow-sm">
+        <div className="max-w-4xl mx-auto px-5 py-6">
+          <div className="relative group">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
             <input
               type="text"
-              placeholder="Buscar por título ou autor..."
+              placeholder="Pesquisar por título, autor ou tema..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-muted border-none rounded-2xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground"
+              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary/20 transition-all text-sm font-medium"
             />
-          </div>
-
-          {/* Filter Pills */}
-          <div className="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
-            {years.map((year) => (
-              <button
-                key={year}
-                onClick={() => setSelectedYear(year)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
-                  selectedYear === year
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "bg-card border border-border text-foreground hover:bg-muted"
-                }`}
-              >
-                {year}
-              </button>
-            ))}
-            {types.map((type) => (
-              <button
-                key={type}
-                className="px-4 py-1.5 bg-card border border-border text-foreground rounded-full text-xs font-medium whitespace-nowrap hover:bg-muted transition-colors"
-              >
-                {type}
-              </button>
-            ))}
           </div>
         </div>
       </div>
 
-      {/* Publications List */}
-      <main className="px-4 pt-4 pb-8 space-y-4 max-w-3xl mx-auto">
-        {filteredPublications.map((pub, index) => (
-          <PublicationCard
-            key={pub.title}
-            {...pub}
-            featured={index === 0 && pub.featured}
-            imageUrl={index === 0 ? pub.imageUrl : undefined}
-          />
-        ))}
-
-        {filteredPublications.length === 0 && (
-          <div className="text-center py-12">
-            <span className="material-symbols-outlined text-4xl text-muted-foreground mb-2">article</span>
-            <p className="text-muted-foreground">Nenhuma publicação encontrada</p>
-          </div>
-        )}
+      <main className="container mx-auto px-4 py-12 max-w-4xl pb-32">
+        <div className="space-y-6">
+          {loading ? (
+            <div className="py-20 text-center animate-pulse">
+              <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em] italic">Sincronizando repositório...</p>
+            </div>
+          ) : filteredObras.length > 0 ? (
+            filteredObras.map((obra) => (
+              <div key={obra.id} className="group bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                <div className="flex flex-col md:flex-row gap-6 items-start">
+                  <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-colors">
+                    <span className="material-symbols-outlined text-primary group-hover:text-white transition-colors">menu_book</span>
+                  </div>
+                  <div className="flex-1 space-y-3">
+                    <div className="flex items-center gap-3">
+                       <span className="text-[10px] font-black bg-slate-100 text-slate-500 px-3 py-1 rounded-full uppercase tracking-widest">{obra.ano || 'Publicação'}</span>
+                    </div>
+                    <h3 className="text-xl font-black text-gray-900 uppercase italic leading-tight group-hover:text-primary transition-colors">
+                      {obra.titulo}
+                    </h3>
+                    <p className="text-sm font-bold text-slate-400 uppercase tracking-tighter">
+                      Autores: <span className="text-slate-600">{obra.autores}</span>
+                    </p>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium line-clamp-3">
+                      {obra.descricao}
+                    </p>
+                    {obra.link_url && (
+                      <a 
+                        href={obra.link_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest hover:gap-4 transition-all pt-4"
+                      >
+                        Acessar Obra Completa <span className="material-symbols-outlined text-sm">open_in_new</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-20 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+               <span className="material-symbols-outlined text-5xl text-slate-200 mb-4">find_in_page</span>
+               <p className="text-gray-400 font-black italic uppercase text-[10px] tracking-widest">Nenhuma publicação encontrada no momento.</p>
+            </div>
+          )}
+        </div>
       </main>
     </PageLayout>
   );

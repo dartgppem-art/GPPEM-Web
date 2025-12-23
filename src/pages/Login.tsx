@@ -1,127 +1,102 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/services/firebase";
+import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
-import PageLayout from "@/components/layout/PageLayout";
 import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      
-      toast({
-        title: "Bem-vindo de volta!",
-        description: "Login realizado com sucesso.",
-      });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      // Redireciona para o painel (que criaremos em breve)
-      navigate("/admin");
-      
-    } catch (error: any) {
-      console.error(error);
-      let errorMessage = "Ocorreu um erro ao tentar entrar.";
-      
-      // Tratamento de erros comuns do Firebase
-      if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-        errorMessage = "E-mail ou senha incorretos.";
-      } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = "Muitas tentativas falhas. Tente novamente mais tarde.";
-      }
-
+    if (error) {
       toast({
         variant: "destructive",
-        title: "Erro no login",
-        description: errorMessage,
+        title: "Acesso Negado",
+        description: "E-mail ou senha incorretos.",
       });
-    } finally {
-      setIsLoading(false);
+      setLoading(false);
+    } else {
+      toast({
+        title: "Bem-vindo(a)!",
+        description: "Login realizado com sucesso.",
+      });
+      navigate("/admin"); // Manda para o painel
     }
   };
 
   return (
-    <PageLayout>
-      <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md bg-card border border-border rounded-2xl shadow-card p-8">
-          
-          <div className="text-center mb-8">
-            <span className="material-symbols-outlined text-4xl text-primary mb-2">lock</span>
-            <h1 className="text-2xl font-bold text-foreground">Área Restrita</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Acesso exclusivo para administradores do GPPEM
-            </p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        
+        {/* Cabeçalho do Login */}
+        <div className="bg-primary p-8 text-center">
+          <h1 className="text-3xl font-bold text-white mb-2">Área Restrita</h1>
+          <p className="text-blue-100 text-sm">Acesso exclusivo para pesquisadores</p>
+        </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
-                E-mail
-              </label>
+        {/* Formulário */}
+        <div className="p-8 pt-10">
+          <form onSubmit={handleLogin} className="space-y-6">
+            
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700">E-mail Institucional</label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">
-                  mail
-                </span>
-                <input
-                  type="email"
+                <span className="material-symbols-outlined absolute left-3 top-3 text-gray-400">mail</span>
+                <input 
+                  type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground transition-all outline-none"
-                  placeholder="admin@gppem.com"
+                  className="w-full pl-10 p-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-primary transition-all"
+                  placeholder="admin@uern.br"
                   required
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
-                Senha
-              </label>
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700">Senha</label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">
-                  key
-                </span>
-                <input
-                  type="password"
+                <span className="material-symbols-outlined absolute left-3 top-3 text-gray-400">lock</span>
+                <input 
+                  type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground transition-all outline-none"
+                  className="w-full pl-10 p-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-primary transition-all"
                   placeholder="••••••••"
                   required
                 />
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary text-primary-foreground font-bold py-3.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
             >
-              {isLoading ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                  <span>Entrando...</span>
-                </>
-              ) : (
-                <>
-                  <span>Acessar Painel</span>
-                  <span className="material-symbols-outlined text-lg">login</span>
-                </>
-              )}
+              {loading ? "Verificando..." : "Entrar no Sistema"}
             </button>
           </form>
 
+          <div className="mt-6 text-center">
+            <a href="/" className="text-sm text-gray-400 hover:text-primary flex items-center justify-center gap-1 transition-colors">
+              <span className="material-symbols-outlined text-sm">arrow_back</span> Voltar ao Site
+            </a>
+          </div>
         </div>
+
       </div>
-    </PageLayout>
+    </div>
   );
 };
 

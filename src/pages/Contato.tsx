@@ -1,194 +1,210 @@
-import { useState } from "react";
 import PageLayout from "@/components/layout/PageLayout";
 import PageHero from "@/components/layout/PageHero";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { useToast } from "@/hooks/use-toast";
-// IMPORT ATUALIZADO:
-import heroContato from "@/assets/hero-contato.jpg";
+import heroImage from "@/assets/hero-music-education.jpg"; // Use uma imagem bonita de contato/fones
 
 const Contato = () => {
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  
+  // Estados do Formulário
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    user_name: "",
+    user_email: "",
     subject: "",
-    message: "",
+    message: ""
   });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Mensagem enviada!",
-      description: "Agradecemos seu contato. Responderemos em breve.",
-    });
-    setFormData({ name: "", email: "", subject: "", message: "" });
-  };
+    
+    // Validação básica
+    if (!formData.user_name || !formData.user_email || !formData.message || !formData.subject) {
+      toast({ variant: "destructive", title: "Campos obrigatórios", description: "Preencha todos os campos." });
+      return;
+    }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setLoading(true);
+
+    // --- CONFIGURAÇÃO DO EMAILJS ---
+    const serviceID = "service_pvw6l2v";
+    const templateID = "template_dzry15a";
+    const publicKey = "t8xvvglMuH2I8N-NC";
+
+    const templateParams = {
+      user_name: formData.user_name,
+      user_email: formData.user_email,
+      subject: formData.subject,
+      message: formData.message,
+    };
+
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        toast({ 
+          title: "Mensagem Enviada! 🚀", 
+          description: "Recebemos seu contato e responderemos em breve." 
+        });
+        setFormData({ user_name: "", user_email: "", subject: "", message: "" }); // Limpa form
+      }, (err) => {
+        console.log('FAILED...', err);
+        toast({ 
+          variant: "destructive", 
+          title: "Erro no envio", 
+          description: "Houve um problema. Tente nos enviar um e-mail direto: dart.gppem@gmail.com" 
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <PageLayout>
       <PageHero
         title="Contato"
-        subtitle="Entre em contato com o GPPEM"
-        image={heroContato} // Imagem específica
+        subtitle="Entre em contato com nossa equipe de pesquisa."
+        image={heroImage}
       />
 
-      <main className="px-4 pt-6 pb-8 space-y-6 max-w-3xl mx-auto">
-        {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-card rounded-2xl p-5 border border-border shadow-card">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-primary">location_on</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-card-foreground text-sm mb-1">Endereço</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Universidade do Estado do Rio Grande do Norte (UERN)
-                  <br />
-                  Departamento de Artes - DART
-                  <br />
-                  Mossoró, RN - Brasil
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-card rounded-2xl p-5 border border-border shadow-card">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-primary">mail</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-card-foreground text-sm mb-1">E-mail</h3>
-                <p className="text-xs text-muted-foreground">gppem@uern.br</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Respondemos em até 48 horas úteis
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Social Links */}
-        <div className="bg-card rounded-2xl p-5 border border-border shadow-card">
-          <h3 className="font-bold text-card-foreground text-sm mb-4">Redes Sociais</h3>
-          <div className="flex gap-3">
-            <a
-              href="#"
-              className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              <span className="material-symbols-outlined text-xl">public</span>
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              <span className="material-symbols-outlined text-xl">play_circle</span>
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              <span className="material-symbols-outlined text-xl">photo_camera</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Contact Form */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-card">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="material-symbols-outlined text-primary">edit_note</span>
-            <h2 className="text-lg font-bold text-card-foreground">Envie uma Mensagem</h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          {/* Informações de Contato (Lado Esquerdo) */}
+          <div className="space-y-8 animate-slide-right">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-card-foreground mb-1">
-                Nome Completo
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground"
-                placeholder="Seu nome"
-              />
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Fale Conosco</h2>
+              <p className="text-gray-600 leading-relaxed">
+                Tem dúvidas sobre nossos projetos, eventos ou quer saber como participar do grupo de pesquisa?
+                Preencha o formulário ou utilize nossos canais oficiais.
+              </p>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-card-foreground mb-1">
-                E-mail
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground"
-                placeholder="seu@email.com"
-              />
-            </div>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-primary/10 p-3 rounded-full text-primary">
+                  <span className="material-symbols-outlined">location_on</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Endereço</h3>
+                  <p className="text-gray-600 text-sm">
+                    Universidade do Estado do Rio Grande do Norte (UERN)<br/>
+                    Departamento de Artes (DART)<br/>
+                    Campus Central - Mossoró/RN
+                  </p>
+                </div>
+              </div>
 
-            <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-card-foreground mb-1">
-                Assunto
-              </label>
-              <select
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground"
+              <div className="flex items-start gap-4">
+                <div className="bg-primary/10 p-3 rounded-full text-primary">
+                  <span className="material-symbols-outlined">mail</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">E-mail</h3>
+                  <p className="text-gray-600 text-sm">dart.gppem@gmail.com</p>
+                  <p className="text-gray-600 text-sm">gppem@uern.br</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-primary/10 p-3 rounded-full text-primary">
+                  <span className="material-symbols-outlined">schedule</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Horário de Atendimento</h3>
+                  <p className="text-gray-600 text-sm">Segunda a Sexta: 07:00 - 11:00 / 13:00 - 17:00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Formulário (Lado Direito) */}
+          <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 animate-slide-up">
+            <div className="flex items-center gap-2 mb-6 text-primary font-bold">
+               <span className="material-symbols-outlined">send</span>
+               <h3>Envie uma Mensagem</h3>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-5">
+              
+              <div className="space-y-1">
+                <label className="text-sm font-semibold text-gray-700">Nome Completo</label>
+                <input 
+                  type="text" 
+                  name="user_name"
+                  value={formData.user_name}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                  placeholder="Seu nome"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-semibold text-gray-700">E-mail</label>
+                <input 
+                  type="email" 
+                  name="user_email"
+                  value={formData.user_email}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                  placeholder="seu@email.com"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-semibold text-gray-700">Assunto</label>
+                <select 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                  required
+                >
+                  <option value="" disabled>Selecione um assunto</option>
+                  <option value="Dúvida Geral">Dúvida Geral</option>
+                  <option value="Inscrição em Eventos">Inscrição em Eventos</option>
+                  <option value="Parcerias">Parcerias e Pesquisa</option>
+                  <option value="Certificados">Solicitação de Certificados</option>
+                  <option value="Outros">Outros</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-semibold text-gray-700">Mensagem</label>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
+                  placeholder="Escreva sua mensagem..."
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={loading}
+                className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
               >
-                <option value="">Selecione um assunto</option>
-                <option value="pesquisa">Participar de Pesquisa</option>
-                <option value="parceria">Proposta de Parceria</option>
-                <option value="informacoes">Informações Gerais</option>
-                <option value="eventos">Eventos</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
+                {loading ? "Enviando..." : (
+                  <>Enviar Mensagem <span className="material-symbols-outlined">send</span></>
+                )}
+              </button>
 
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-card-foreground mb-1">
-                Mensagem
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-3 bg-muted border-none rounded-xl text-sm focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground resize-none"
-                placeholder="Escreva sua mensagem..."
-              />
-            </div>
+            </form>
+          </div>
 
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
-              <span>Enviar Mensagem</span>
-              <span className="material-symbols-outlined text-lg">send</span>
-            </button>
-          </form>
         </div>
-      </main>
+      </div>
     </PageLayout>
   );
 };

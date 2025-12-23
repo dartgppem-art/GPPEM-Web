@@ -1,78 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "@/components/layout/PageLayout";
 import PageHero from "@/components/layout/PageHero";
 import ResearchLineCard from "@/components/ui/ResearchLineCard";
-// IMPORT ATUALIZADO:
+import { supabase } from "@/lib/supabase";
 import heroPesquisa from "@/assets/hero-pesquisa.jpg";
-
-const researchLines = [
-  {
-    icon: "wifi",
-    title: "Educação Musical a Distância",
-    description:
-      "Investigação de metodologias e práticas de ensino musical em ambientes virtuais de aprendizagem, explorando as possibilidades da EaD para democratização do acesso à educação musical.",
-  },
-  {
-    icon: "computer",
-    title: "Educação Musical Mediada por Tecnologias",
-    description:
-      "Estudo do uso de ferramentas digitais, softwares de notação e aplicativos no processo de ensino-aprendizagem da música em diferentes níveis e contextos educacionais.",
-  },
-  {
-    icon: "language",
-    title: "Educação Musical Online e Híbrida",
-    description:
-      "Análise de modelos pedagógicos que integram momentos presenciais e remotos no ensino da música, desenvolvendo estratégias para aprendizagem significativa em ambientes híbridos.",
-  },
-  {
-    icon: "school",
-    title: "Ensino e Aprendizagem da Música em diferentes contextos",
-    description:
-      "Pesquisa sobre processos de ensino-aprendizagem musical em escolas, projetos sociais, conservatórios e espaços não-formais, considerando diversidade cultural e regional.",
-  },
-  {
-    icon: "music_note",
-    title: "Educação Musical e Formação Humana",
-    description:
-      "Investigação dos processos educativos musicais em diversos contextos sociais e sua contribuição para o desenvolvimento integral do ser humano.",
-  },
-  {
-    icon: "history_edu",
-    title: "História e Memória da Educação Musical",
-    description:
-      "Estudos aprofundados sobre narrativas, documentos e trajetórias históricas no ensino da música no Nordeste brasileiro.",
-  },
-];
 
 const LinhasDePesquisa = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [linhas, setLinhas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredLines = researchLines.filter(
-    (line) =>
-      line.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      line.description.toLowerCase().includes(searchQuery.toLowerCase())
+  // BUSCA DINÂMICA: Conectando ao que você cadastra no Admin
+  useEffect(() => {
+    const fetchLinhas = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('linhas_pesquisa')
+        .select('*')
+        .order('id', { ascending: true });
+      
+      if (!error && data) {
+        setLinhas(data);
+      }
+      setLoading(false);
+    };
+    fetchLinhas();
+  }, []);
+
+  // FILTRO: Permite buscar nas linhas cadastradas
+  const filteredLines = linhas.filter((line) =>
+    (line.titulo || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (line.descricao || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <PageLayout>
       <PageHero
         title="Linhas de Pesquisa"
-        subtitle="Explore as principais vertentes investigativas do GPPEM"
-        image={heroPesquisa} // Imagem específica
+        subtitle="Explore as vertentes investigativas e produções acadêmicas do GPPEM."
+        image={heroPesquisa}
       />
 
-      {/* Search */}
-      <div className="px-4 py-4 bg-card sticky top-[60px] z-10 shadow-sm border-b border-border">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <span className="material-symbols-outlined text-muted-foreground group-focus-within:text-primary transition-colors text-xl">
-                search
-              </span>
-            </div>
+      <div className="bg-card border-b border-border sticky top-0 z-10 shadow-sm">
+        <div className="max-w-3xl mx-auto px-5 py-4">
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-muted-foreground">search</span>
             <input
               type="text"
-              placeholder="Buscar por tema..."
+              placeholder="Buscar por tema ou palavra-chave..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="block w-full pl-10 pr-3 py-3 border-none rounded-2xl bg-muted text-foreground placeholder-muted-foreground shadow-sm focus:ring-2 focus:ring-primary focus:bg-card transition-all text-sm"
@@ -81,32 +56,40 @@ const LinhasDePesquisa = () => {
         </div>
       </div>
 
-      {/* Content */}
-      <main className="p-5 space-y-6 max-w-3xl mx-auto">
+      <main className="p-5 space-y-6 max-w-3xl mx-auto pb-20">
         <div className="space-y-2">
-          <h2 className="text-xl font-bold text-foreground">Nossas Áreas de Estudo</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Explore as principais vertentes investigativas do GPPEM, focadas na inovação e na prática pedagógica musical.
+          <h2 className="text-xl font-black text-foreground uppercase italic tracking-tighter flex items-center gap-2">
+            <span className="w-1.5 h-5 bg-primary rounded-full"></span>
+            Eixos Acadêmicos
+          </h2>
+          <p className="text-sm text-muted-foreground leading-relaxed font-medium">
+            Listagem dinâmica das áreas de estudo do grupo vinculadas ao DART/UERN.
           </p>
         </div>
 
         <div className="space-y-4">
-          {filteredLines.map((line) => (
-            <ResearchLineCard
-              key={line.title}
-              icon={line.icon}
-              title={line.title}
-              description={line.description}
-            />
-          ))}
+          {loading ? (
+            <div className="py-20 text-center animate-pulse">
+              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">Sincronizando banco de dados...</p>
+            </div>
+          ) : filteredLines.length > 0 ? (
+            filteredLines.map((line) => (
+              <ResearchLineCard
+                key={line.id}
+                icon="hub" // Ícone padrão acadêmico
+                title={line.titulo}
+                description={line.descricao}
+              />
+            ))
+          ) : (
+            <div className="text-center py-16 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-100">
+              <span className="material-symbols-outlined text-4xl text-slate-200 mb-2">inventory_2</span>
+              <p className="text-slate-400 font-black italic uppercase text-[10px] tracking-widest">
+                {searchQuery ? "Nenhum resultado para a busca" : "Aguardando cadastro no painel administrativo"}
+              </p>
+            </div>
+          )}
         </div>
-
-        {filteredLines.length === 0 && (
-          <div className="text-center py-12">
-            <span className="material-symbols-outlined text-4xl text-muted-foreground mb-2">search_off</span>
-            <p className="text-muted-foreground">Nenhuma linha de pesquisa encontrada</p>
-          </div>
-        )}
       </main>
     </PageLayout>
   );

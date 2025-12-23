@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Sidebar from "./Sidebar";
 
 const navLinks = [
@@ -9,6 +8,7 @@ const navLinks = [
   { href: "/linhas-de-pesquisa", label: "Linhas de Pesquisa" },
   { href: "/publicacoes", label: "Publicações" },
   { href: "/eventos", label: "Eventos" },
+  { href: "/acervo", label: "Acervo" },
   { href: "/equipe", label: "Equipe" },
   { href: "/contato", label: "Contato" },
 ];
@@ -17,46 +17,48 @@ const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
-  // Fecha a sidebar ao mudar de rota
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location]);
 
   return (
     <>
-      {/* HEADER CONFIGURATION:
-        - sticky top-0: Fixa no topo.
-        - bg-card/90: Fundo branco/claro com leve transparência (efeito vidro).
-        - backdrop-blur-md: Desfoque do que passa por trás.
-        - border-b: Linha sutil na parte inferior para separar do conteúdo.
-      */}
       <header className="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-card/90 backdrop-blur-md border-b border-border shadow-sm">
         
-        {/* LADO ESQUERDO: LOGO ANIMADA */}
-        <Link to="/" className="flex items-center gap-3 group select-none">
-            {/* Container do Ícone (Quadradinho Azul) */}
-            <div className="relative w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:bg-primary/90 overflow-hidden">
-               {/* Efeito de brilho sutil no hover */}
+        {/* LADO ESQUERDO: IDENTIDADE VISUAL GPPEM COMPLETA */}
+        <Link to="/" className="flex items-center gap-4 group select-none flex-1 lg:flex-none">
+            {/* ÍCONE: NOTA MUSICAL EM BRANCO */}
+            <div className="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:bg-primary/90 overflow-hidden shrink-0">
                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-               
-               {/* Ícone da Nota Musical */}
-              <span className="material-symbols-outlined text-blue-950 text-[24px] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 relative z-10">
+              <span className="material-symbols-outlined text-white text-[28px] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 relative z-10">
                 music_note
               </span>
             </div>
 
-            {/* Texto Centralizado */}
-            <div className="flex flex-col justify-center">
-              <h1 className="text-lg font-extrabold leading-none tracking-tight text-primary">
-                GPPEM
-              </h1>
-              <span className="text-[9px] font-bold text-muted-foreground tracking-widest uppercase leading-none mt-0.5">
-                UERN
-              </span>
+            <div className="flex items-center gap-4">
+              {/* BLOCO CENTRALIZADO: SIGLA + DEPARTAMENTO */}
+              <div className="flex flex-col items-center justify-center min-w-[70px]">
+                <h1 className="text-xl font-black leading-none tracking-tighter text-primary uppercase">
+                  GPPEM
+                </h1>
+                <span className="text-[8px] font-bold text-muted-foreground tracking-[0.2em] uppercase leading-none mt-1.5">
+                  DART / UERN
+                </span>
+              </div>
+
+              {/* TRAÇO VERTICAL DIVISOR */}
+              <div className="h-10 w-[1.5px] bg-slate-200 hidden md:block"></div>
+
+              {/* NOME POR EXTENSO: INICIAIS MAIÚSCULAS E FONTE MAIOR */}
+              <div className="hidden md:flex flex-col justify-center">
+                <span className="text-[11.5px] font-semibold leading-[1.3] text-slate-500 max-w-[210px]">
+                  Grupo de Pesquisa Perspectivas em Educação Musical
+                </span>
+              </div>
             </div>
         </Link>
 
-        {/* CENTRO/DIREITA: MENU DESKTOP COMPLETO */}
+        {/* MENU DESKTOP */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.href;
@@ -76,7 +78,7 @@ const Header = () => {
           })}
         </nav>
 
-        {/* LADO DIREITO: MENU MOBILE (HAMBÚRGUER) */}
+        {/* MENU MOBILE */}
         <div className="lg:hidden">
           <button
             onClick={() => setIsSidebarOpen(true)}
@@ -87,7 +89,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* COMPONENTE SIDEBAR (Já criado anteriormente) */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </>
   );

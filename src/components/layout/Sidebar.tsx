@@ -21,26 +21,26 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent side="left" className="w-[300px] p-0 border-r border-border bg-background">
+      <SheetContent side="left" className="w-[350px] p-0 border-r border-border bg-background">
         <div className="flex flex-col h-full">
           
-          {/* Header do Sidebar com a Nova Logo */}
+          {/* Header do Sidebar com Identidade Completa GPPEM */}
           <div className="p-6 border-b border-border">
-            <div className="flex items-center gap-3 select-none">
-              {/* Ícone Logo (Estilo CSS puro igual ao Header) */}
-              <div className="relative w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+            <div className="flex items-start gap-3 select-none">
+              {/* Ícone Logo Azul */}
+              <div className="relative w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-sm overflow-hidden shrink-0 mt-1">
                 <span className="material-symbols-outlined text-blue-950 text-[22px] -rotate-6">
                   music_note
                 </span>
               </div>
               
-              {/* Texto Logo */}
+              {/* Identidade Visual Completa: Nome Extenso + Siglas */}
               <div className="flex flex-col justify-center">
-                <h2 className="text-lg font-extrabold leading-none tracking-tight text-foreground">
-                  GPPEM
+                <h2 className="text-[13px] font-black leading-tight text-foreground uppercase tracking-tighter">
+                  GPPEM - Grupo de Pesquisa Perspectivas em Educação Musical
                 </h2>
-                <span className="text-[9px] font-bold text-muted-foreground tracking-widest uppercase leading-none mt-0.5">
-                  UERN
+                <span className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] uppercase leading-none mt-2">
+                  DART / UERN
                 </span>
               </div>
             </div>
@@ -73,10 +73,10 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </ul>
           </nav>
 
-          {/* Footer do Sidebar */}
+          {/* Footer do Sidebar Padronizado */}
           <div className="p-6 border-t border-border bg-muted/30">
-            <p className="text-xs text-center text-muted-foreground leading-relaxed">
-              &copy; 2024 GPPEM<br/>
+            <p className="text-[10px] text-center text-muted-foreground leading-relaxed font-bold uppercase tracking-widest">
+              &copy; 2024 GPPEM DART/UERN<br/>
               Universidade do Estado do Rio Grande do Norte
             </p>
           </div>
