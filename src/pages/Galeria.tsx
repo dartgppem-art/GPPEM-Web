@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/Layout/PageHero";
+import PageHero from "@/components/layout/PageHero"
 import { supabase } from "@/lib/supabase";
 import heroImage from "@/assets/hero-music-education.jpg";
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/Layout/PageHero";
+import PageHero from "@/components/layout/PageHero";
 import { supabase } from "@/lib/supabase";
 import heroPublicacoes from "@/assets/event-seminar.jpg";
 
