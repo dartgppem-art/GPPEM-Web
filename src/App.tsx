@@ -20,7 +20,7 @@ import Publicacoes from "./pages/Publicacoes";
 import Eventos from "./pages/Eventos";
 import Equipe from "./pages/Equipe";
 import Contato from "./pages/Contato";
-import Galeria from "./pages/Galeria"; // Mantendo a Galeria que já funcionava
+import Galeria from "./pages/Galeria";
 
 // PÁGINAS ADMINISTRATIVAS E SEGURANÇA
 import Login from "./pages/Login";
@@ -78,7 +78,7 @@ const App = () => (
           {/* Rota Dinâmica para Detalhes e Galeria */}
           <Route path="/evento/:id" element={<EventoDetalhes />} />
 
-          {/* --- ÁREA RESTRITA (BLINDADA 🔐) --- */}
+          {/* --- ÁREA RESTRITA (BLINDADA 🔒) --- */}
           <Route element={<RotaProtegida />}>
              <Route path="/admin" element={<Admin />} />
              <Route path="/admin/eventos" element={<AdminEventos />} />
