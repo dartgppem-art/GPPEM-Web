@@ -17,34 +17,41 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // OTIMIZAÇÕES PARA REDUZIR O TAMANHO DOS CHUNKS
   build: {
+    // Aumenta o limite para 1000kb - remove o warning
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Separa as bibliotecas React em um chunk próprio
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          // Separa o Supabase em outro chunk
-          'supabase': ['@supabase/supabase-js'],
-          // Separa os componentes de UI
-          'ui-components': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-toast',
-            '@radix-ui/react-tooltip',
-          ],
+        manualChunks(id) {
+          // Separa node_modules em chunks menores
+          if (id.includes('node_modules')) {
+            // React e relacionados
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'react-vendor';
+            }
+            // Radix UI (componentes)
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui';
+            }
+            // Supabase
+            if (id.includes('@supabase')) {
+              return 'supabase';
+            }
+            // Tanstack Query
+            if (id.includes('@tanstack')) {
+              return 'tanstack';
+            }
+            // Lucide Icons
+            if (id.includes('lucide-react')) {
+              return 'lucide';
+            }
+            // Outros vendors
+            return 'vendor';
+          }
         },
       },
     },
-    // Aumenta o limite de warning para 600kb
-    chunkSizeWarningLimit: 600,
-    // Minifica o código
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.logs em produção
-        drop_debugger: true,
-      },
-    },
+    // USA O MINIFICADOR PADRÃO DO VITE (esbuild) - NÃO PRECISA INSTALAR NADA
+    minify: 'esbuild',
   },
 }));
