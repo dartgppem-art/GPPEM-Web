@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Instagram, Facebook, Youtube, Linkedin } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -47,7 +48,67 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Coluna 3: Contato */}
+          {/* Coluna 3: Redes Sociais */}
+          <div>
+            <h3 className="text-white font-black mb-4 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+              Redes Sociais
+            </h3>
+            <div className="space-y-3">
+              <p className="text-xs text-gray-400 mb-4">Siga-nos nas redes sociais e fique por dentro das novidades!</p>
+              
+              <div className="flex flex-col gap-2">
+                <a 
+                  href="https://www.instagram.com/gppem.dart/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-200 hover:text-pink-400 transition-all group"
+                >
+                  <div className="bg-white/10 p-2 rounded-lg group-hover:bg-pink-400/20 transition-all">
+                    <Instagram className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-semibold">Instagram</span>
+                </a>
+
+                <a 
+                  href="https://www.facebook.com/perspectivasemeducacaomusical" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-200 hover:text-blue-400 transition-all group"
+                >
+                  <div className="bg-white/10 p-2 rounded-lg group-hover:bg-blue-400/20 transition-all">
+                    <Facebook className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-semibold">Facebook</span>
+                </a>
+
+                <a 
+                  href="https://www.youtube.com/@gppemdart5762" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-200 hover:text-red-400 transition-all group"
+                >
+                  <div className="bg-white/10 p-2 rounded-lg group-hover:bg-red-400/20 transition-all">
+                    <Youtube className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-semibold">YouTube</span>
+                </a>
+
+                <a 
+                  href="https://www.linkedin.com/company/gppem" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-200 hover:text-blue-500 transition-all group"
+                >
+                  <div className="bg-white/10 p-2 rounded-lg group-hover:bg-blue-500/20 transition-all">
+                    <Linkedin className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-semibold">LinkedIn</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Coluna 4: Contato */}
           <div>
             <h3 className="text-white font-black mb-4 text-sm tracking-widest border-b border-white/20 pb-2 italic">
               Contato
@@ -71,24 +132,21 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Coluna 4: Realização */}
-          <div>
-            <h3 className="text-white font-black mb-4 text-sm tracking-widest border-b border-white/20 pb-2 italic">
-              Realização
-            </h3>
-            <div className="grid grid-cols-2 gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 backdrop-blur-sm shadow-inner">
-              <img src="/logo-dart-uern.png" alt="DART/UERN" className="h-10 w-full object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
-              <img src="/logo-musica.jpg" alt="Música UERN" className="h-10 w-full object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
-              <div className="col-span-2 border-t border-white/10 pt-2 mt-1">
-                <img src="/logo-gppem.jpg" alt="GPPEM" className="h-8 w-full object-contain mx-auto" />
-              </div>
-            </div>
+        {/* LOGOS CENTRALIZADAS */}
+        <div className="flex justify-center items-center mb-6">
+          <div className="flex items-center gap-6 bg-white/5 px-8 py-4 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <img src="/logo-dart-uern.png" alt="DART/UERN" className="h-12 object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
+            <div className="w-px h-12 bg-white/20"></div>
+            <img src="/logo-musica.jpg" alt="Música UERN" className="h-12 object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
+            <div className="w-px h-12 bg-white/20"></div>
+            <img src="/logo-gppem.jpg" alt="GPPEM" className="h-12 object-contain" />
           </div>
         </div>
 
-        {/* Barra Inferior - COMPACTADA E COM SEU NOME */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-medium tracking-wide text-gray-400">
+        {/* Barra Inferior */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-medium tracking-wide text-gray-400 pt-4 border-t border-white/10">
           <p>© {currentYear} GPPEM DART/UERN. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
             <div className="text-center md:text-right">
