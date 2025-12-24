@@ -21,6 +21,9 @@ const VLibras = () => {
           opacity: 1,
           position: 'R', // Right (direita)
           avatar: 'icaro', // Avatar padrão
+          // ATIVA AS LEGENDAS
+          showCaption: true,
+          captionPosition: 'bottom', // Posição das legendas
           // DESATIVA O TUTORIAL INICIAL
           personalization: {
             showTutorial: false
