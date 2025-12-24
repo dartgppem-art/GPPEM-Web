@@ -6,13 +6,9 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    // 1. O 'w-full' garante que o rodapé ocupe a largura total (fundo)
-    // A classe 'relative z-10' garante que ele fique acima do fundo de bolinhas
-    <footer className="w-full text-white py-12 border-t border-white/10 relative z-10">
+    // ADICIONEI 'bg-slate-900' AQUI PARA VOLTAR A COR DE FUNDO ESCURA
+    <footer className="w-full bg-slate-900 text-white py-12 border-t border-white/10 relative z-10">
       
-      {/* 2. AQUI ESTÁ O SEGREDO DO "CENTRALIZADO":
-          'max-w-6xl' trava a largura máxima (não deixa esticar até a borda)
-          'mx-auto' centraliza essa caixa na tela */}
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-8 text-left">
@@ -20,7 +16,7 @@ const Footer = () => {
           {/* --- COLUNA 1: IDENTIDADE --- */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-               {/* Se tiver a imagem do logo, use <img src={logoGppem} className="h-16 w-auto" /> */}
+               {/* LOGO: Substitua pela imagem se tiver */}
                <div className="bg-white p-2 rounded-md h-16 w-auto flex items-center justify-center">
                   <span className="text-blue-900 font-bold text-xl px-2">LOGO GPPEM</span> 
                </div>
