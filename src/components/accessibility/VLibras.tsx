@@ -16,7 +16,24 @@ const VLibras = () => {
       // @ts-ignore
       if (window.VLibras) {
         // @ts-ignore
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget({
+          rootPath: 'https://vlibras.gov.br/app',
+          opacity: 1,
+          position: 'R', // Right (direita)
+          avatar: 'icaro', // Avatar padrão
+          // DESATIVA O TUTORIAL INICIAL
+          personalization: {
+            showTutorial: false
+          }
+        });
+
+        // Remove o tutorial se ele aparecer
+        setTimeout(() => {
+          const tutorial = document.querySelector('[vw-tutorial]');
+          const overlay = document.querySelector('.vw-plugin-overlay');
+          if (tutorial) tutorial.remove();
+          if (overlay) overlay.remove();
+        }, 1000);
       }
     };
     
