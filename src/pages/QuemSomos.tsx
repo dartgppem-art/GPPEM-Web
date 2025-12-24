@@ -13,7 +13,7 @@ const QuemSomos = () => {
         image={heroImage}
       />
 
-      <div className="px-5 py-6 space-y-6 max-w-3xl mx-auto">
+      <div className="px-5 py-6 space-y-6 lg:max-w-6xl mx-auto">
         {/* Introduction Card */}
         <div className="bg-card rounded-2xl shadow-card border border-border p-5 animate-slide-up">
           <p className="text-sm leading-relaxed text-muted-foreground">
