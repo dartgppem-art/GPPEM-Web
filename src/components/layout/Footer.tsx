@@ -1,102 +1,113 @@
-import { Facebook, Instagram, Youtube, MapPin, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// IMPORTANTE: Se o seu logo for uma imagem, importe ela aqui. 
-// Exemplo: import logoGppem from '../assets/logo-gppem.png';
-
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    // ADICIONEI 'bg-slate-900' AQUI PARA VOLTAR A COR DE FUNDO ESCURA
-    <footer className="w-full bg-slate-900 text-white py-12 border-t border-white/10 relative z-10">
+    // CLASSE RESTAURADA: bg-[#0a192f] (Azul Escuro) e w-full (Largura Total)
+    <footer className="relative bg-[#0a192f] text-white pt-16 pb-8 overflow-hidden border-t border-white/10 w-full">
       
-      <div className="max-w-6xl mx-auto px-6">
+      {/* Textura de Fundo Sutil */}
+      <div 
+        className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+        style={{ 
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")` 
+        }}
+      ></div>
+
+      <div className="container mx-auto px-6 relative z-10 max-w-6xl">
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-8 text-left">
+        {/* GRID PRINCIPAL: Responsivo (1 coluna no mobile -> 4 no PC) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-white/20 pb-12">
           
-          {/* --- COLUNA 1: IDENTIDADE --- */}
-          <div className="flex flex-col gap-4">
+          {/* Coluna 1: Identidade */}
+          <div className="space-y-6">
             <div className="flex items-center gap-3">
-               {/* LOGO: Substitua pela imagem se tiver */}
-               <div className="bg-white p-2 rounded-md h-16 w-auto flex items-center justify-center">
-                  <span className="text-blue-900 font-bold text-xl px-2">LOGO GPPEM</span> 
-               </div>
+              <div className="bg-white p-2 rounded-xl shadow-lg inline-block">
+                <img src="/logo-gppem.jpg" alt="GPPEM" className="h-10 w-auto object-contain" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black uppercase tracking-tighter leading-none text-white">GPPEM</h2>
+                <p className="text-blue-400 font-bold text-[10px] tracking-widest uppercase mt-1">DART / UERN</p>
+              </div>
             </div>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              Grupo de Pesquisa Perspectivas em Educação Musical. Investigação e desenvolvimento da educação musical.
+            <p className="text-sm text-gray-300 font-medium leading-relaxed text-justify">
+              Grupo de Pesquisa Perspectivas em Educação Musical. Investigação e desenvolvimento da educação musical no cenário regional e nacional.
             </p>
           </div>
 
-          {/* --- COLUNA 2: NAVEGAÇÃO --- */}
+          {/* Coluna 2: Navegação */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white border-b-2 border-blue-400 inline-block pb-1">
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
               Navegação
             </h3>
-            <ul className="space-y-3 text-gray-300 text-sm font-medium">
-              <li><Link to="/quem-somos" className="hover:text-blue-300 transition-colors">Quem Somos</Link></li>
-              <li><Link to="/linhas-pesquisa" className="hover:text-blue-300 transition-colors">Linhas de Pesquisa</Link></li>
-              <li><Link to="/publicacoes" className="hover:text-blue-300 transition-colors">Publicações</Link></li>
-              <li><Link to="/eventos" className="hover:text-blue-300 transition-colors">Eventos</Link></li>
+            <ul className="space-y-3 text-[13px] font-bold tracking-tighter uppercase">
+              <li><Link to="/quem-somos" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Quem somos</Link></li>
+              <li><Link to="/linhas-de-pesquisa" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Linhas de pesquisa</Link></li>
+              <li><Link to="/publicacoes" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Publicações</Link></li>
+              <li><Link to="/eventos" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Eventos</Link></li>
+              <li><Link to="/acervo" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Acervo</Link></li>
+              <li><Link to="/equipe" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Equipe</Link></li>
             </ul>
           </div>
 
-          {/* --- COLUNA 3: CONECTE-SE (REDES SOCIAIS) --- */}
+          {/* Coluna 3: Contato */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white border-b-2 border-blue-400 inline-block pb-1">
-              Conecte-se
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+              Contato
             </h3>
-            <div className="flex flex-col gap-4">
-                <p className="text-sm text-gray-300">Acompanhe nossas novidades:</p>
-                <div className="flex gap-3">
-                    {/* Instagram */}
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
-                       className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-red-500 hover:to-purple-500 hover:text-white text-white transition-all duration-300 border border-white/20">
-                        <Instagram className="w-5 h-5" />
-                    </a>
-                    {/* Facebook */}
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                       className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 hover:text-white text-white transition-all duration-300 border border-white/20">
-                        <Facebook className="w-5 h-5" />
-                    </a>
-                    {/* YouTube */}
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
-                       className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 hover:text-white text-white transition-all duration-300 border border-white/20">
-                        <Youtube className="w-5 h-5" />
-                    </a>
-                </div>
+            <div className="space-y-5">
+              <div className="flex gap-3">
+                <span className="material-symbols-outlined text-blue-400 text-lg">location_on</span>
+                <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                  Mossoró-RN, Campus Central, <br />
+                  Av. Prof. Antônio Campos.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-blue-400 text-lg">mail</span>
+                <a 
+                  href="mailto:dart.gppem@gmail.com" 
+                  className="text-xs font-black text-white hover:text-blue-200 transition-all underline underline-offset-4"
+                >
+                  dart.gppem@gmail.com
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* --- COLUNA 4: CONTATO --- */}
+          {/* Coluna 4: Redes Sociais e Acesso */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white border-b-2 border-blue-400 inline-block pb-1">
-              Contato
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+              Conecte-se
             </h3>
-            <ul className="space-y-4 text-gray-300 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                    <span className="block font-medium text-white">Campus Central - UERN</span>
-                    <span className="block text-xs text-gray-400">Av. Prof. Antônio Campos, Mossoró-RN</span>
-                </div>
-              </li>
-              
-              <li className="flex items-start gap-3 w-full overflow-hidden">
-                <Mail className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                <a href="mailto:dart.gppem@gmail.com" className="hover:text-blue-300 transition-colors truncate">
-                  dart.gppem@gmail.com
-                </a>
-              </li>
-            </ul>
+            <div className="flex gap-4 mb-6">
+              {/* Ícones sociais placeholder - podem ser ativados via Admin */}
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><span className="material-symbols-outlined text-sm">share</span></div>
+            </div>
+            <Link 
+              to="/admin" 
+              className="inline-flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-white hover:bg-white hover:text-[#0a192f] transition-all font-bold text-[10px] uppercase tracking-widest"
+            >
+              <span className="material-symbols-outlined text-sm">lock</span> Acesso Restrito
+            </Link>
           </div>
-
         </div>
 
-        {/* Rodapé inferior (Copyright) */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 gap-4">
-          <p className="text-center md:text-left">© 2025 GPPEM DART/UERN. Todos os direitos reservados.</p>
-          <div className="font-medium bg-blue-900/30 px-3 py-1 rounded-full border border-blue-500/30 text-blue-200">
-             Desenvolvido com apoio DART
+        {/* ÁREA DAS LOGOS (Rodapé Inferior) */}
+        <div className="flex flex-col items-center justify-center gap-8 pt-8 pb-4">
+          {/* Logos lado a lado */}
+          <div className="flex flex-wrap justify-center items-center gap-6 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+             <img src="/logo-dart-uern.png" alt="DART UERN" className="h-12 object-contain brightness-0 invert" />
+             <div className="h-8 w-[1px] bg-white/30"></div>
+             <img src="/logo-gppem.jpg" alt="GPPEM" className="h-10 object-contain rounded-md" />
+             <div className="h-8 w-[1px] bg-white/30"></div>
+             <img src="/logo-musica.jpg" alt="Musica" className="h-10 object-contain rounded-md opacity-80" />
           </div>
+
+          <p className="text-[9px] font-medium tracking-widest text-gray-500 uppercase text-center">
+            © {currentYear} GPPEM DART/UERN. Todos os direitos reservados.
+          </p>
         </div>
       </div>
     </footer>
