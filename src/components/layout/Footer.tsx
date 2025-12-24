@@ -135,21 +135,13 @@ const Footer = () => {
         </div>
 
         {/* Barra Inferior */}
-        <div className="flex flex-col items-center gap-6 text-[11px] font-medium tracking-wide text-gray-400 pt-4 border-t border-white/10">
-          <p>© {currentYear} GPPEM DART/UERN. TODOS OS DIREITOS RESERVADOS.</p>
-          
-          {/* LOGOS CENTRALIZADAS */}
-          <div className="flex items-center gap-6 bg-white/5 px-8 py-4 rounded-2xl border border-white/10 backdrop-blur-sm">
-            <img src="/logo-dart-uern.png" alt="DART/UERN" className="h-12 object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
-            <div className="w-px h-12 bg-white/20"></div>
-            <img src="/logo-musica.jpg" alt="Música UERN" className="h-12 object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
-            <div className="w-px h-12 bg-white/20"></div>
-            <img src="/logo-gppem.jpg" alt="GPPEM" className="h-12 object-contain" />
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-medium tracking-wide text-gray-400">
+          <div className="text-center md:text-left">
+            <p>© {currentYear} GPPEM DART/UERN.</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">TODOS OS DIREITOS RESERVADOS.</p>
           </div>
-          
-          {/* Informações de Desenvolvedor */}
-          <div className="flex flex-col md:flex-row items-center gap-4 w-full justify-between">
-            <div className="text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
+            <div className="text-center md:text-right">
               <p className="text-gray-400">Desenvolvido pelo GPPEM</p>
               <p className="text-gray-500 text-[10px] mt-0.5">Prof. Esp. José Igor Paulino da Silva</p>
             </div>
@@ -160,6 +152,13 @@ const Footer = () => {
               Acesso restrito
             </Link>
           </div>
+        </div>
+
+        {/* LOGOS - SEM CARD, CENTRALIZADAS */}
+        <div className="flex justify-center items-center gap-8 mt-6 pt-6 border-t border-white/5">
+          <img src="/logo-dart-uern.png" alt="DART/UERN" className="h-10 object-contain opacity-70 hover:opacity-100 transition-all grayscale hover:grayscale-0" />
+          <img src="/logo-musica.jpg" alt="Música UERN" className="h-10 object-contain opacity-70 hover:opacity-100 transition-all grayscale hover:grayscale-0" />
+          <img src="/logo-gppem.jpg" alt="GPPEM" className="h-10 object-contain opacity-70 hover:opacity-100 transition-all" />
         </div>
       </div>
     </footer>
