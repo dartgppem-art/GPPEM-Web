@@ -16,38 +16,20 @@ const Footer = () => {
       <div className="container mx-auto px-6 relative z-10 max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-white/20 pb-12">
           
-          {/* Coluna 1: Identidade Institucional Com Divisor */}
+          {/* Coluna 1: Identidade Institucional - GPPEM MAIÚSCULO E SEM ITÁLICO */}
           <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              
-              {/* Logo Imagem */}
-              <div className="bg-white p-1.5 rounded-lg shadow-lg shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="bg-white p-2 rounded-xl shadow-lg inline-block">
                 <img src="/logo-gppem.jpg" alt="GPPEM" className="h-10 w-auto object-contain" />
               </div>
-
-              {/* Bloco Centralizado: Sigla */}
-              <div className="flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-black text-white uppercase tracking-tighter leading-none">
-                  GPPEM
-                </h2>
-                <span className="text-[9px] font-bold text-blue-400 tracking-[0.2em] uppercase leading-none mt-1">
-                  DART / UERN
-                </span>
-              </div>
-
-              {/* Traço Vertical Divisor */}
-              <div className="h-8 w-[1px] bg-white/20 hidden md:block"></div>
-
-              {/* Nome Extenso */}
-              <div className="hidden md:block">
-                <p className="text-[10px] text-gray-400 font-medium leading-tight max-w-[150px]">
-                  grupo de pesquisa perspectivas em educação musical
-                </p>
+              <div>
+                {/* Alteração: uppercase e remoção do italic */}
+                <h2 className="text-xl font-black uppercase tracking-tighter leading-none text-white">GPPEM</h2>
+                <p className="text-blue-300 font-bold text-[10px] tracking-widest uppercase mt-1">Dart / Uern</p>
               </div>
             </div>
-
-            <p className="text-sm text-gray-400 font-medium leading-relaxed text-justify">
-              Dedicado à investigação e ao desenvolvimento da educação musical no cenário regional e nacional.
+            <p className="text-sm text-gray-300 font-medium leading-relaxed text-justify">
+              Grupo de pesquisa perspectivas em educação musical. Dedicado à investigação e ao desenvolvimento da educação musical no cenário regional e nacional.
             </p>
           </div>
 
@@ -56,13 +38,13 @@ const Footer = () => {
             <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
               Navegação
             </h3>
-            <ul className="space-y-3 text-[13px] font-bold tracking-tighter uppercase">
-              <li><Link to="/quem-somos" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Quem somos</Link></li>
-              <li><Link to="/linhas-de-pesquisa" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Linhas de pesquisa</Link></li>
-              <li><Link to="/publicacoes" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Publicações</Link></li>
-              <li><Link to="/eventos" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Eventos</Link></li>
-              <li><Link to="/acervo" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Acervo</Link></li>
-              <li><Link to="/equipe" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Equipe</Link></li>
+            <ul className="space-y-3 text-[14px] font-bold tracking-tighter">
+              <li><Link to="/quem-somos" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Quem somos</Link></li>
+              <li><Link to="/linhas-de-pesquisa" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Linhas de pesquisa</Link></li>
+              <li><Link to="/publicacoes" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Publicações</Link></li>
+              <li><Link to="/eventos" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Eventos</Link></li>
+              <li><Link to="/acervo" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Acervo</Link></li>
+              <li><Link to="/equipe" className="text-gray-200 hover:text-blue-300 transition-colors flex items-center gap-2">› Equipe</Link></li>
             </ul>
           </div>
 
@@ -73,20 +55,20 @@ const Footer = () => {
             </h3>
             <div className="space-y-5">
               <div className="flex gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">location_on</span>
+                <span className="material-symbols-outlined text-blue-300 text-lg">location_on</span>
                 <p className="text-xs text-gray-300 font-medium leading-relaxed">
                   Mossoró-RN, Campus Central, <br />
                   Av. Prof. Antônio Campos - Pres. Costa e Silva.
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">mail</span>
-                <a 
-                  href="mailto:dart.gppem@gmail.com" 
+                <span className="material-symbols-outlined text-blue-300 text-lg">mail</span>
+                <Link 
+                  to="/contato" 
                   className="text-xs font-black text-white hover:text-blue-200 transition-all underline underline-offset-4"
                 >
                   dart.gppem@gmail.com
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -100,22 +82,22 @@ const Footer = () => {
               <img src="/logo-dart-uern.png" alt="DART/UERN" className="h-10 w-full object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
               <img src="/logo-musica.jpg" alt="Música UERN" className="h-10 w-full object-contain brightness-125 grayscale hover:grayscale-0 transition-all opacity-90 hover:opacity-100" />
               <div className="col-span-2 border-t border-white/10 pt-2 mt-1">
-                <img src="/logo-gppem.jpg" alt="GPPEM" className="h-8 w-full object-contain mx-auto opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/logo-gppem.jpg" alt="GPPEM" className="h-8 w-full object-contain mx-auto" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Barra Inferior */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-          <p>© {currentYear} GPPEM DART/UERN. Todos os direitos reservados.</p>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-medium tracking-wide text-gray-400">
+          <p>© {currentYear} GPPEM DART/UERN. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex items-center gap-8">
-            <span className="opacity-50 hover:opacity-100 transition-opacity cursor-default">Desenvolvido pelo GPPEM</span>
+            <span className="text-gray-400">Desenvolvido pelo GPPEM</span>
             <Link 
               to="/admin" 
-              className="px-4 py-1.5 border border-white/10 rounded-full text-gray-400 hover:bg-white hover:text-[#0a192f] transition-all font-bold"
+              className="px-4 py-1.5 border border-white/30 rounded-full text-white hover:bg-white hover:text-[#0a192f] transition-all font-bold"
             >
-              Acesso Restrito
+              Acesso restrito
             </Link>
           </div>
         </div>
