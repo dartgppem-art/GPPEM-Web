@@ -4,7 +4,6 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    // CLASSE RESTAURADA: bg-[#0a192f] (Azul Escuro) e w-full (Largura Total)
     <footer className="relative bg-[#0a192f] text-white pt-16 pb-8 overflow-hidden border-t border-white/10 w-full">
       
       {/* Textura de Fundo Sutil */}
@@ -15,14 +14,19 @@ const Footer = () => {
         }}
       ></div>
 
-      <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+      {/* MUDANÇA AQUI: Removido 'container mx-auto max-w-6xl' e adicionado padding lateral maior para telas grandes */}
+      <div className="w-full px-6 lg:px-24 relative z-10">
         
-        {/* GRID PRINCIPAL: Responsivo (1 coluna no mobile -> 4 no PC) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-white/20 pb-12">
+        {/* GRID PRINCIPAL: 
+            - Adicionado 'text-center' (para mobile) 
+            - Adicionado 'lg:text-left' (para PC) 
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-white/20 pb-12 text-center lg:text-left">
           
           {/* Coluna 1: Identidade */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
+            {/* Flex ajustado para centralizar no mobile e ir para esquerda no PC */}
+            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-3">
               <div className="bg-white p-2 rounded-xl shadow-lg inline-block">
                 <img src="/logo-gppem.jpg" alt="GPPEM" className="h-10 w-auto object-contain" />
               </div>
@@ -31,17 +35,18 @@ const Footer = () => {
                 <p className="text-blue-400 font-bold text-[10px] tracking-widest uppercase mt-1">DART / UERN</p>
               </div>
             </div>
-            <p className="text-sm text-gray-300 font-medium leading-relaxed text-justify">
+            <p className="text-sm text-gray-300 font-medium leading-relaxed text-justify lg:text-left">
               Grupo de Pesquisa Perspectivas em Educação Musical. Investigação e desenvolvimento da educação musical no cenário regional e nacional.
             </p>
           </div>
 
           {/* Coluna 2: Navegação */}
           <div>
-            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic inline-block lg:block">
               Navegação
             </h3>
-            <ul className="space-y-3 text-[13px] font-bold tracking-tighter uppercase">
+            {/* Itens centralizados no mobile via 'items-center', esquerda no PC via 'lg:items-start' */}
+            <ul className="space-y-3 text-[13px] font-bold tracking-tighter uppercase flex flex-col items-center lg:items-start">
               <li><Link to="/quem-somos" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Quem somos</Link></li>
               <li><Link to="/linhas-de-pesquisa" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Linhas de pesquisa</Link></li>
               <li><Link to="/publicacoes" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2">› Publicações</Link></li>
@@ -53,18 +58,19 @@ const Footer = () => {
 
           {/* Coluna 3: Contato */}
           <div>
-            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic inline-block lg:block">
               Contato
             </h3>
             <div className="space-y-5">
-              <div className="flex gap-3">
+              {/* Centraliza ícones e texto no mobile, alinha esquerda no PC */}
+              <div className="flex justify-center lg:justify-start gap-3">
                 <span className="material-symbols-outlined text-blue-400 text-lg">location_on</span>
-                <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                <p className="text-xs text-gray-300 font-medium leading-relaxed text-left">
                   Mossoró-RN, Campus Central, <br />
                   Av. Prof. Antônio Campos.
                 </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex justify-center lg:justify-start items-center gap-3">
                 <span className="material-symbols-outlined text-blue-400 text-lg">mail</span>
                 <a 
                   href="mailto:dart.gppem@gmail.com" 
@@ -78,11 +84,11 @@ const Footer = () => {
 
           {/* Coluna 4: Redes Sociais e Acesso */}
           <div>
-            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic">
+            <h3 className="text-white font-black mb-6 text-sm tracking-widest border-b border-white/20 pb-2 italic inline-block lg:block">
               Conecte-se
             </h3>
-            <div className="flex gap-4 mb-6">
-              {/* Ícones sociais placeholder - podem ser ativados via Admin */}
+            <div className="flex justify-center lg:justify-start gap-4 mb-6">
+              {/* Ícones sociais placeholder */}
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><span className="material-symbols-outlined text-sm">share</span></div>
             </div>
             <Link 
