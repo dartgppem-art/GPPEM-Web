@@ -62,7 +62,8 @@ const VLibras = () => {
         right: '0', 
         top: '50%', 
         zIndex: 99999,
-        pointerEvents: 'auto'
+        pointerEvents: 'auto',
+        display: 'block !important' as any
       }}
     >
       <div vw="true" className="enabled">
