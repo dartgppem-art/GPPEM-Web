@@ -4,8 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// IMPORT DO COMPONENTE DE RESET DE SCROLL
+// IMPORT DO COMPONENTE DE RESET DE SCROLL (MANTIDO)
 import ScrollToTop from "./components/ScrollToTop";
+
+// --- NOVOS COMPONENTES DE ACESSIBILIDADE (ADICIONADOS AGORA) ---
+import VLibras from "./components/accessibility/VLibras";
+import AcessibilidadeTools from "./components/accessibility/AcessibilidadeTools";
+// ---------------------------------------------------------------
 
 // Páginas principais
 import Index from "./pages/Index";
@@ -15,7 +20,7 @@ import Publicacoes from "./pages/Publicacoes";
 import Eventos from "./pages/Eventos";
 import Equipe from "./pages/Equipe";
 import Contato from "./pages/Contato";
-import Galeria from "./pages/Galeria";
+import Galeria from "./pages/Galeria"; // Mantendo a Galeria que já funcionava
 
 // PÁGINAS ADMINISTRATIVAS E SEGURANÇA
 import Login from "./pages/Login";
@@ -27,6 +32,8 @@ import RotaProtegida from "./components/RotaProtegida";
 import EncontroDeEgressos from "./pages/EncontroDeEgressos";
 import Femuern from "./pages/Femuern";
 import EventoDetalhes from "./pages/EventoDetalhes";
+
+// Página 404
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,12 +43,19 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      
+      {/* --- INJEÇÃO DA ACESSIBILIDADE (Global) --- */}
+      {/* Eles flutuam sobre o site, não quebram o layout */}
+      <VLibras />
+      <AcessibilidadeTools />
+      {/* ------------------------------------------ */}
+
       <BrowserRouter>
-        {/* O ScrollToTop deve ficar aqui, dentro do BrowserRouter mas fora das Routes */}
+        {/* O ScrollToTop garante que a página abra no topo */}
         <ScrollToTop /> 
         
         <Routes>
-          {/* Rotas Públicas Principais */}
+          {/* --- ROTAS PÚBLICAS (Acesso Livre) --- */}
           <Route path="/" element={<Index />} />
           <Route path="/quem-somos" element={<QuemSomos />} />
           <Route path="/linhas-de-pesquisa" element={<LinhasDePesquisa />} />
@@ -54,13 +68,14 @@ const App = () => (
           {/* Rota de Login */}
           <Route path="/login" element={<Login />} />
 
-          {/* Subpáginas de Eventos e Redirecionamentos */}
+          {/* Subpáginas de Eventos */}
           <Route path="/eventos/encontro-de-egressos" element={<EncontroDeEgressos />} />
           <Route path="/egressos" element={<EncontroDeEgressos />} />
+          
           <Route path="/eventos/femuern" element={<Femuern />} />
           <Route path="/femuern" element={<Femuern />} />
 
-          {/* Rota Dinâmica para Detalhes de Evento */}
+          {/* Rota Dinâmica para Detalhes e Galeria */}
           <Route path="/evento/:id" element={<EventoDetalhes />} />
 
           {/* --- ÁREA RESTRITA (BLINDADA 🔐) --- */}
@@ -69,7 +84,7 @@ const App = () => (
              <Route path="/admin/eventos" element={<AdminEventos />} />
           </Route>
 
-          {/* Rota de Erro 404 */}
+          {/* Rota 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
