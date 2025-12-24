@@ -19,9 +19,9 @@ const VLibras = () => {
   }, []);
 
   return (
-    // Estrutura exigida pelo plugin do Governo
-    <div className="enabled">
-      <div vw="true" className="left-0 top-1/2 transform -translate-y-1/2">
+    // Forçamos o z-index alto para ele aparecer sobre tudo
+    <div className="enabled" style={{ position: 'fixed', right: '0', top: '50%', zIndex: 99999 }}>
+      <div vw="true">
         <div vw-access-button="true" className="active"></div>
         <div vw-plugin-wrapper="true">
           <div className="vw-plugin-top-wrapper"></div>
